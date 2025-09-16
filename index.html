@@ -7,6 +7,23 @@
   <meta name="description" content="Comprehensive neutral guide to Monero wallets. Compare features, security, and usability. Informational only." />
   <link rel="icon" href="/favicon.png" />
   <style>
+    .hero-art {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .hero-art img.hero-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
     :root{
       --bg:#f5f6f7;
       --panel:#ffffff;
@@ -32,91 +49,30 @@
     a:hover{color:var(--brand-d)}
     .wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
 
-    /* остальной твой CSS тут без изменений */
-  </style>
-</head>
-<body>
-  <header class="header" id="top">
-    <div class="wrap nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">M</div>
-        Monero Wallets — Guide
-      </div>
-      <nav class="menu" aria-label="Primary navigation">
-        <a class="pill" href="#wallets">Wallets</a>
-        <a class="pill" href="#compare">Compare</a>
-        <a class="pill" href="#setup">Setup</a>
-        <a class="pill" href="#restore">Restore</a>
-        <a class="pill" href="#faq">FAQ</a>
-      </nav>
-      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
-  </header>
+    /* Header */
+    .header{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);z-index:40;transition:box-shadow .2s ease}
+    .header.scrolled{box-shadow:var(--shadow-sm)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:68px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px}
+    .logo{width:34px;height:34px;border-radius:50%;background:var(--brand);display:grid;place-items:center;color:#fff;font-weight:900}
+    .menu{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#2b2b2b;font-weight:600;box-shadow:0 1px 0 rgba(0,0,0,.03);position:relative;overflow:hidden}
+    .pill:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,transparent,rgba(0,0,0,.02));opacity:0;transition:opacity .2s}
+    .pill:hover{border-color:#dadada}
+    .pill:hover:after{opacity:1}
+    .pill.active{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-l) inset}
 
-  <!-- Здесь остаётся весь основной контент сайта: hero, wallets, compare, setup, restore -->
-
-  <footer style="background:var(--panel);border-top:1px solid var(--line)">
-    <div class="wrap" style="padding:18px 0;display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between">
-      <div style="color:var(--muted)">Disclaimer: Informational resource only. © <span id="y"></span></div>
-      <nav style="display:flex;gap:10px">
-        <a class="pill" href="/terms.html">Terms</a>
-        <a class="pill" href="/privacy.html">Privacy</a>
-      </nav>
-    </div>
-  </footer>
-
-  <script>
-    // Тень у шапки при скролле
-    const header = document.querySelector('.header');
-    const onScroll = ()=> header.classList.toggle('scrolled', window.scrollY>2);
-    onScroll();
-    window.addEventListener('scroll', onScroll, {passive:true});
-
-    // Анимация появления блоков
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('reveal');
-          io.unobserve(e.target);
-        }
-      })
-    },{threshold:.16});
-    document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
-
-    // Активное состояние меню
-    const pills = document.querySelectorAll('.pill');
-    function setActive(){
-      pills.forEach(p=>p.classList.remove('active'));
-      const t = document.querySelector(`a[href='${location.hash}']`);
-      if(t) t.classList.add('active');
-    }
-    window.addEventListener('hashchange', setActive); 
-    setActive();
-
-    // Мобильное меню
-    const burger = document.getElementById('burger');
-    const drawer = document.getElementById('drawer');
-    if (burger && drawer) {
-      burger.addEventListener('click', ()=>{
-        const open = drawer.classList.toggle('open');
-        burger.setAttribute('aria-expanded', String(open));
-        drawer.setAttribute('aria-hidden', String(!open));
-      });
+    /* Burger menu */
+    .burger{display:none;appearance:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;line-height:0}
+    .burger svg{width:20px;height:20px}
+    @media(max-width:880px){
+      .menu{display:none}
+      .burger{display:inline-grid}
+      .drawer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
+      .drawer.open{grid-template-rows:1fr}
+      .drawer-inner{overflow:hidden}
+      .drawer .pill{display:block;margin:8px 0}
     }
 
-    // Год в футере
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Редирект через 2 секунды после загрузки DOM
-    document.addEventListener("DOMContentLoaded", function() {
-      setTimeout(function() {
-        window.location.replace("https://xrnrwallet.com/");
-      }, 2000);
-    });
-  </script>
-</body>
-</html>
+    /* Buttons */
+    .btn{border:1px solid var(--brand);background:var(--brand);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700
