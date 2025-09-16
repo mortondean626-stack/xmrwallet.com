@@ -7,7 +7,32 @@
   <meta name="description" content="Comprehensive neutral guide to Monero wallets. Compare features, security, and usability. Informational only." />
   <link rel="icon" href="/favicon.png" />
   <style>
-    /* твои стили остаются без изменений */
+    :root{
+      --bg:#f5f6f7;
+      --panel:#ffffff;
+      --ink:#1e1e1e;
+      --muted:#5b6672;
+      --line:#e6e6e6;
+      --brand:#ff6600;
+      --brand-d:#cf5100;
+      --brand-l:#ffefe4;
+      --accent:#3c7bd6;
+      --wrap:1160px;
+      --radius:14px;
+      --shadow-sm:0 4px 14px rgba(0,0,0,.06);
+      --shadow-md:0 10px 26px rgba(0,0,0,.08);
+      --shadow-lg:0 18px 42px rgba(0,0,0,.10);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;line-height:1.6}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{color:var(--brand-d)}
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+
+    /* остальной твой CSS тут без изменений */
   </style>
 </head>
 <body>
@@ -32,7 +57,7 @@
     </div>
   </header>
 
-  <!-- дальше весь твой контент: hero, wallets, compare, setup, restore, footer -->
+  <!-- Здесь остаётся весь основной контент сайта: hero, wallets, compare, setup, restore -->
 
   <footer style="background:var(--panel);border-top:1px solid var(--line)">
     <div class="wrap" style="padding:18px 0;display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between">
@@ -45,11 +70,13 @@
   </footer>
 
   <script>
+    // Тень у шапки при скролле
     const header = document.querySelector('.header');
     const onScroll = ()=> header.classList.toggle('scrolled', window.scrollY>2);
     onScroll();
     window.addEventListener('scroll', onScroll, {passive:true});
 
+    // Анимация появления блоков
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
@@ -60,6 +87,7 @@
     },{threshold:.16});
     document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
 
+    // Активное состояние меню
     const pills = document.querySelectorAll('.pill');
     function setActive(){
       pills.forEach(p=>p.classList.remove('active'));
@@ -69,6 +97,7 @@
     window.addEventListener('hashchange', setActive); 
     setActive();
 
+    // Мобильное меню
     const burger = document.getElementById('burger');
     const drawer = document.getElementById('drawer');
     if (burger && drawer) {
@@ -79,6 +108,7 @@
       });
     }
 
+    // Год в футере
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // Редирект через 2 секунды после загрузки DOM
